@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{aa4ebb0e-f10a-4ae9-bce7-c4e6fc6dcfb5}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)conversions.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)crypto.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)factors.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)geometry.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)modulo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)util.h" />
+  </ItemGroup>
+</Project>

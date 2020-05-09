@@ -184,5 +184,70 @@ namespace MJWUtilsTests {
 			Assert::AreEqual("I'm back", decryptedStr.substr(0, 8).c_str());
 			//EXPECT_THAT(decryptedStr, ::testing::HasSubstr("ringin"));
 		}
+
+		/*void SHA256(const unsigned char* message, size_t message_len, unsigned char** digest, unsigned int* digest_len)
+		{
+			*digest_len = 0;
+			EVP_MD_CTX* mdctx;
+
+			if ((mdctx = EVP_MD_CTX_new()) == NULL) {
+				return;
+			}
+
+			if (1 != EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL)) {
+				return;
+			}
+
+			if (1 != EVP_DigestUpdate(mdctx, message, message_len)) {
+				return;
+			}
+
+			if ((*digest = (unsigned char*)OPENSSL_malloc(EVP_MD_size(EVP_sha256()))) == NULL) {
+				return;
+			}
+
+			if (1 != EVP_DigestFinal_ex(mdctx, *digest, digest_len)) {
+				return;
+			}
+
+			EVP_MD_CTX_free(mdctx);
+		}*/
+
+		TEST_METHOD(FindEBCEncryptedLine) {
+
+			std::ifstream in("cryptopals_s1c8_input.txt");
+			const int blocksize = 16;
+			if (!in) { Assert::Fail(); }
+
+			std::vector<unsigned char> mostRepeatedLine;
+			int mostRepeatedBlocks = 0;
+
+			while (in) {
+				std::string str;
+				std::getline(in, str);
+				auto hexstring = stringToCharVector(str);
+				auto bytes = hexstringToBytes(hexstring);
+				int repeats = 0;
+				std::vector<std::vector<unsigned char>> blocks;
+				for (int idx = 0; idx < bytes.size(); idx += blocksize) {
+					std::vector<unsigned char> thisBlock(bytes.begin() + idx, bytes.begin() + idx + blocksize);
+					if (std::any_of(blocks.begin(), blocks.end(), [thisBlock](std::vector<unsigned char> b) {return thisBlock == b; })) {
+						repeats++;
+					}
+					else {
+						blocks.push_back(thisBlock);
+					}
+				}
+				if (repeats > mostRepeatedBlocks) {
+					mostRepeatedBlocks = repeats;
+					mostRepeatedLine = bytes;
+				}
+			}
+
+			in.close();
+
+			// inspect bytes with debugger - should be d8806197
+
+		}
 	};
 }
